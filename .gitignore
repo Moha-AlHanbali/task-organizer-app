@@ -1,57 +1,34 @@
-### NextJS ###
-# Next build dir
-.next/
-### react ###
-.DS_*
-*.log
-logs
-**/*.backup.*
-**/*.back.*
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-node_modules
-bower_components
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
 
-*.sublime*
+# testing
+/coverage
 
-psd
-thumb
-sketch
+# next.js
+/.next/
+/out/
 
-### VisualStudioCode ###
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-!.vscode/*.code-snippets
+# production
+/build
 
-# Local History for Visual Studio Code
-.history/
+# misc
+.DS_Store
+*.pem
 
-# Built Visual Studio Code Extensions
-*.vsix
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-### VisualStudioCode Patch ###
-# Ignore all local history of files
-.history
-.ionide
+# local env files
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
-# Support for Project snippet scope
-
-### yarn ###
-
-.yarn/*
-!.yarn/releases
-!.yarn/patches
-!.yarn/plugins
-!.yarn/sdks
-!.yarn/versions
-
-# if you are NOT using Zero-installs, then:
-# comment the following lines
-!.yarn/cache
-
-# and uncomment the following lines
-# .pnp.*
-
-.env
+# vercel
+.vercel
