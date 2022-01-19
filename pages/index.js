@@ -1,7 +1,11 @@
 import Head from 'next/head'
-import Image from 'next/image'
+import Login from '../components/Login'
+import { useAuth } from '../contexts/auth'
 
 export default function Home() {
+
+  const { user, login, logout } = useAuth();
+
   return (
     <div>
       <Head>
@@ -11,11 +15,11 @@ export default function Home() {
       </Head>
 
       <main>
-
+        {user ? null : <Login login={login} />}
       </main>
 
       <footer>
-      
+
       </footer>
     </div>
   )
