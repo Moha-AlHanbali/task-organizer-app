@@ -1,8 +1,9 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 import jwt from 'jsonwebtoken';
 import axios from 'axios'
 const baseUrl = process.env.NEXT_PUBLIC_API_URL;
-const tokenUrl = baseUrl + '/api/token/';
+const tokenUrl = baseUrl + '/accounts/login/';
+const LOCAL_STORAGE_KEY = 'taskOrganizerApp.auth.token'
 
 const AuthContext = createContext();
 
@@ -40,12 +41,35 @@ export function AuthProvider(props) {
     }
 
     function logout() {
+        localStorage.removeItem(LOCAL_STORAGE_KEY);
         const newState = {
             tokens: null,
             user: null,
         }
         setState(prevState => ({ ...prevState, ...newState }));
     }
+
+    // PERSIST TOKENS DATA IN LOCAL STORAGE
+    useEffect(() => {
+        if (state.tokens) localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(state.tokens))
+    }, [state]);
+
+    // READ TOKENS DATA FROM LOCAL STORAGE
+    useEffect(() => {
+        const storedTokens = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY))
+        if (storedTokens) {
+            const decodedAccess = jwt.decode(storedTokens.access);
+            const newState = {
+                tokens: storedTokens,
+                user: {
+                    username: decodedAccess.username,
+                    email: decodedAccess.email,
+                    id: decodedAccess.user_id
+                },
+            }
+            setState(prevState => ({ ...prevState, ...newState }))
+        }
+    }, []);
 
     return (
         <AuthContext.Provider value={state}>
