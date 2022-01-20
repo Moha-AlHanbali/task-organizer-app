@@ -3,6 +3,7 @@ import { useAuth } from '../contexts/auth'
 import Head from 'next/head'
 import Login from '../components/Login'
 import Logout from '../components/Logout';
+import Signup from '../components/Signup';
 
 export default function Home() {
 
@@ -17,7 +18,7 @@ export default function Home() {
       </Head>
 
       <main>
-        {user ? <Logout logout={logout} /> : <Login login={login} />}
+        {user ? <Logout logout={logout} /> : <> <Login login={login} /> <Signup login={login} /> </>}
       </main>
 
       <footer>
