@@ -3,6 +3,7 @@ import DailyView from './DailyView';
 import MonthlyView from './MonthlyView';
 import WeeklyView from './WeeklyView';
 import TasksView from './TasksView';
+import Sidebar from './Sidebar';
 import axios from 'axios';
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -17,27 +18,31 @@ export default function Dashboard({ user }) {
         console.log((userID));
         const response = axios.post(retrieveTasks, { 'userID': userID }).then(console.log(response))
 
-
     }, [userID])
 
     return (
         <div>
             <div>
-                <div>
-                    <DailyView />
-                </div>
-                <div>
-                    <MonthlyView />
-                </div>
+                <Sidebar userName = {user.username}/>
             </div>
             <div>
                 <div>
-                    <WeeklyView />
+                    <div>
+                        <DailyView />
+                    </div>
+                    <div>
+                        <MonthlyView />
+                    </div>
                 </div>
                 <div>
-                    <TasksView />
+                    <div>
+                        <WeeklyView />
+                    </div>
+                    <div>
+                        <TasksView />
+                    </div>
                 </div>
-            </div>
-        </div >
+            </div >
+        </div>
     );
 }
