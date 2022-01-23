@@ -27,10 +27,10 @@ export default function Dashboard({ user }) {
             </div>
             <div>
                 <div>
-                    <div>
+                    <div className="flex w-1/3">
                         <DailyView />
                     </div>
-                    <div>
+                    <div className="flex w-1/3">
                         <MonthlyView />
                     </div>
                 </div>
