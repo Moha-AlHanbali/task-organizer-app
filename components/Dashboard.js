@@ -15,7 +15,7 @@ export default function Dashboard({ user }) {
     const userID = user.id
 
     useEffect(() => {
-        console.log((userID));
+
         const response = axios.post(retrieveTasks, { 'userID': userID }).then(console.log(response))
 
     }, [userID])

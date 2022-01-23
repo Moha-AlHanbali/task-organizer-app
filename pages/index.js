@@ -2,13 +2,14 @@ import { useAuth } from '../contexts/auth'
 
 import Head from 'next/head'
 import Login from '../components/Login'
-
 import Signup from '../components/Signup';
 import Dashboard from '../components/Dashboard';
 
+import Profile
+ from '../components/Profile';
 export default function Home() {
 
-  const { user, login, logout } = useAuth();
+  const { user, login } = useAuth();
 
   return (
     <div>
@@ -19,7 +20,7 @@ export default function Home() {
       </Head>
 
       <main>
-        {user ? <> <Dashboard user={user} /></> : <> <Login login={login} /> <Signup login={login} /> </>}
+        {user ? <> <Profile /> <Dashboard user={user} /></> : <> <Login login={login} /> <Signup login={login} /> </>}
       </main>
 
       <footer>
