@@ -33,7 +33,10 @@ export function AuthProvider(props) {
             user: {
                 username: decodedAccess.username,
                 email: decodedAccess.email,
-                id: decodedAccess.user_id
+                id: decodedAccess.user_id,
+                firstName: decodedAccess.first_name,
+                lastName: decodedAccess.last_name,
+                age: decodedAccess.age
             },
         }
 
@@ -64,7 +67,10 @@ export function AuthProvider(props) {
                 user: {
                     username: decodedAccess.username,
                     email: decodedAccess.email,
-                    id: decodedAccess.user_id
+                    id: decodedAccess.user_id,
+                    firstName: decodedAccess.first_name,
+                    lastName: decodedAccess.last_name,
+                    age: decodedAccess.age
                 },
             }
             setState(prevState => ({ ...prevState, ...newState }))

@@ -21,7 +21,7 @@ export default function Signup({ login }) {
       'email': e.target.email.value,
       'first_name': e.target.firstName.value,
       'last_name': e.target.lastName.value,
-      'age': e.target.age.value
+      'age': String(e.target.age.value)
     }
 
 try{
