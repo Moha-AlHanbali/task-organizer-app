@@ -1,21 +1,38 @@
-import React from 'react';
+import { React, useRef, useState } from 'react';
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
 
-export default function MonthlyView() {
+export default function MonthlyView({ userEvents }) {
+
+  const calendarRef = useRef()
+
+  let dateClickHandler = (info) => {
+    console.log('DATE CLICKED', info.date)
+  }
+
+  let eventClickHandler = (info) => {
+    console.log('EVENT CLICKED', info.event.title)
+  }
+
+  const monthly = []
+  for (let item in userEvents){
+    monthly.push(userEvents[item])
+  }
+
   return (
-    <div className="flex w-1/3">
+    <div>
       <FullCalendar
-        plugins={[dayGridPlugin]}
+        ref={calendarRef}
+        plugins={[dayGridPlugin, interactionPlugin]}
         initialView='dayGridMonth'
         height={'auto'}
         slotMinWidth={50}
         editable
         selectable
-        events={[
-          { title: 'event 1', date: '2022-01-23' },
-          { title: 'event 2', date: '2022-01-24' }
-        ]}
+        dateClick={(info) => (dateClickHandler(info), handleUpdateState())}
+        eventClick={(info) => eventClickHandler(info)}
+        events={monthly}
       />
     </div>
   );

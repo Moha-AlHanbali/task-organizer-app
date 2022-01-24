@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from 'react';
+import { React, useState, useEffect, useCallback } from 'react';
 import DailyView from './DailyView';
 import MonthlyView from './MonthlyView';
 import WeeklyView from './WeeklyView';
@@ -12,31 +12,76 @@ const retrieveTasks = baseUrl + '/tasks/get/';
 export default function Dashboard({ user }) {
 
     const [tasks, setTasks] = useState()
+    const [userEvents, setUserEvents] = useState()
+
     const userID = user.id
+
+    // NOTE: CREATING NEW EVENTS
+    // const [events, setEvents] = useState([
+    //   { title: 'event 1', date: '2022-01-23' },
+    //   { title: 'event 2', date: '2022-01-24' }
+    // ])
+
+    // function handleUpdateState() {
+    //   console.log('ADD');
+    //   const calendarApi = calendarRef.current.getApi()
+    //   // calendarApi.unselect()
+
+    //   let newEvents = [...events, { title: 'event 3', date: '2022-01-25' }]
+
+    //   setEvents(newEvents)
+    // }
+
+    const fetchTasks = useCallback(async () => {
+        const response = await axios.post(retrieveTasks, { 'userID': userID })
+        
+        const newTasks = response.data
+
+        await setTasks(prevTasks => ({...prevTasks, ...newTasks}))
+        
+        const newUserEvents = []
+
+        for (const [key, value] of Object.entries(response.data)) {
+            const newEvent = {}
+            for (const [key2, value2] of Object.entries(value)) {
+                if (key2 == 'title') {
+                    newEvent['title'] = value2;
+                } else if (key2 == 'date') {
+                    newEvent['date'] = value2.slice(0, 10)
+                } else if (key2 == 'details') {
+                    newEvent['description'] = value2
+                }
+            }
+            newUserEvents.push(newEvent)
+        }
+        await setUserEvents(prevUserEvents => ({...prevUserEvents, ...newUserEvents}))
+    }, [userID])
+
 
     useEffect(() => {
 
-        const response = axios.post(retrieveTasks, { 'userID': userID }).then(console.log(response))
+        fetchTasks()
 
-    }, [userID])
+    }, [userID, fetchTasks])
+
 
     return (
         <div>
             <div>
-                <Sidebar userName = {user.username}/>
+                <Sidebar userName={user.username} />
             </div>
             <div>
                 <div>
-                    <div>
-                        <DailyView />
+                    <div className="flex w-1/3">
+                        <DailyView userEvents = {userEvents} />
                     </div>
-                    <div>
-                        <MonthlyView />
+                    <div className="flex w-1/3">
+                        <MonthlyView userEvents = {userEvents} />
                     </div>
                 </div>
                 <div>
                     <div>
-                        <WeeklyView />
+                        <WeeklyView userEvents = {userEvents} />
                     </div>
                     <div>
                         <TasksView />
