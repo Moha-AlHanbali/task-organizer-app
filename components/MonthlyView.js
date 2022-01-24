@@ -3,24 +3,9 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 
-export default function MonthlyView() {
+export default function MonthlyView({ userEvents }) {
 
   const calendarRef = useRef()
-  const [events, setEvents] = useState([
-    { title: 'event 1', date: '2022-01-23' },
-    { title: 'event 2', date: '2022-01-24' }
-  ])
-
-  function handleUpdateState() {
-    console.log('ADD');
-    const calendarApi = calendarRef.current.getApi()
-    // calendarApi.unselect()
-
-    let newEvents = [...events, { title: 'event 3', date: '2022-01-25' }]
-
-    setEvents(newEvents)
-
-  }
 
   let dateClickHandler = (info) => {
     console.log('DATE CLICKED', info.date)
@@ -30,6 +15,10 @@ export default function MonthlyView() {
     console.log('EVENT CLICKED', info.event.title)
   }
 
+  const monthly = []
+  for (let item in userEvents){
+    monthly.push(userEvents[item])
+  }
 
   return (
     <div>
@@ -43,7 +32,7 @@ export default function MonthlyView() {
         selectable
         dateClick={(info) => (dateClickHandler(info), handleUpdateState())}
         eventClick={(info) => eventClickHandler(info)}
-        events={events}
+        events={monthly}
       />
     </div>
   );

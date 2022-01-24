@@ -2,7 +2,13 @@ import React from 'react';
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from '@fullcalendar/daygrid';
 
-export default function DailyView() {
+export default function DailyView({ userEvents }) {
+
+  const daily = []
+  for (let item in userEvents){
+    daily.push(userEvents[item])
+  }
+
   return (
     <div>
       <FullCalendar
@@ -12,10 +18,7 @@ export default function DailyView() {
         slotMinWidth={50}
         editable
         selectable
-        events={[
-          { title: 'event 1', date: '2022-01-23' },
-          { title: 'event 2', date: '2022-01-24' }
-        ]}
+        events={daily}
       />
     </div>
   );
