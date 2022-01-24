@@ -13,17 +13,22 @@ export default function Dashboard({ user }) {
 
     const [tasks, setTasks] = useState()
     const userID = user.id
+    
+    let test = async () => {
+        const response = await axios.post(retrieveTasks, { 'userID': userID })
+        console.log(response.data)
+    }
 
     useEffect(() => {
 
-        const response = axios.post(retrieveTasks, { 'userID': userID }).then(console.log(response))
+        test()
 
     }, [userID])
 
     return (
         <div>
             <div>
-                <Sidebar userName = {user.username}/>
+                <Sidebar userName={user.username} />
             </div>
             <div>
                 <div>
