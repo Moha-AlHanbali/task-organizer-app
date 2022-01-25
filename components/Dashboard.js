@@ -7,17 +7,20 @@ import Sidebar from './Sidebar';
 import axios from 'axios';
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL;
-const createTask = baseUrl + '/tasks/'
+const manageTask = baseUrl + '/tasks/';
 const retrieveTasks = baseUrl + '/tasks/get/';
 const LOCAL_STORAGE_KEY = 'taskOrganizerApp.auth.token'
 
 
 export default function Dashboard({ user }) {
 
-    const [tasks, setTasks] = useState()
-    const [userEvents, setUserEvents] = useState([])
+    const [tasks, setTasks] = useState();
+    const [userEvents, setUserEvents] = useState([]);
+    const [date, setDate] = useState();
+    const [activeTask, setActiveTask] = useState();
 
-    const userID = user.id
+    console.log(activeTask);
+    const userID = user.id;
 
     const addTaskHandler = async () => {
         const token = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY))['access']
@@ -26,15 +29,27 @@ export default function Dashboard({ user }) {
             'details': 'TESTING',
             'date': '2022-1-27T10:45:39Z',
             'complete': false,
-            'user': userID
         }
-        const response = await axios.post(createTask, task, {
+        const response = await axios.post(manageTask, task, {
             headers: { "Authorization": `Bearer ${token}` }
         })
 
         fetchTasks()
     }
 
+    const removeTaskHandler = async () => {
+        const token = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY))['access']
+        const task = activeTask
+
+        const response = await axios.delete(manageTask + task + '/', {
+            headers: { "Authorization": `Bearer ${token}` }
+        })
+
+        fetchTasks()
+    }
+    if (activeTask !== null) {
+        removeTaskHandler()
+    }
     const customButtons = {
         addButton: {
             text: "Add a Task",
@@ -59,6 +74,7 @@ export default function Dashboard({ user }) {
         for (const [key, value] of Object.entries(response.data)) {
             const newEvent = []
             for (const [key2, value2] of Object.entries(value)) {
+                newEvent['id'] = key
                 if (key2 == 'title') {
                     newEvent['title'] = value2;
                 } else if (key2 == 'date') {
@@ -93,7 +109,7 @@ export default function Dashboard({ user }) {
                         <DailyView userEvents={userEvents} />
                     </div>
                     <div className="flex w-1/3">
-                        <MonthlyView userEvents={userEvents} customButtons={customButtons} />
+                        <MonthlyView userEvents={userEvents} customButtons={customButtons} setDate={setDate} setActiveTask={setActiveTask} />
                     </div>
                 </div>
                 <div>
