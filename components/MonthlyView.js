@@ -3,7 +3,7 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 
-export default function MonthlyView({ userEvents }) {
+export default function MonthlyView({ userEvents, customButtons }) {
 
   const calendarRef = useRef()
 
@@ -16,14 +16,7 @@ export default function MonthlyView({ userEvents }) {
   }
 
 
-  const customButtons = {
-    myCustomButton: {
-      text: "add",
-        click: function () {
-            ('clicked the custom button!');
-        }
-    }
-}
+  
 
   return (
     <div>
@@ -40,9 +33,9 @@ export default function MonthlyView({ userEvents }) {
         events={userEvents}
         customButtons = {customButtons}
         headerToolbar={{
-          right: '',
+          right: 'today ,prev,next',
           center: '',
-          left: 'today prev,next, myCustomButton'
+          left: 'addButton'
         }}
 
       />
