@@ -12,7 +12,7 @@ const retrieveTasks = baseUrl + '/tasks/get/';
 export default function Dashboard({ user }) {
 
     const [tasks, setTasks] = useState()
-    const [userEvents, setUserEvents] = useState()
+    const [userEvents, setUserEvents] = useState([])
 
     const userID = user.id
 
@@ -37,7 +37,7 @@ export default function Dashboard({ user }) {
         
         const newTasks = response.data
 
-        await setTasks(prevTasks => ({...prevTasks, ...newTasks}))
+        setTasks(prevTasks => ({...prevTasks, ...newTasks}))
         
         const newUserEvents = []
 
@@ -53,16 +53,17 @@ export default function Dashboard({ user }) {
                 }
             }
             newUserEvents.push(newEvent)
-        }
-        await setUserEvents(prevUserEvents => ({...prevUserEvents, ...newUserEvents}))
-    }, [userID])
 
+        }
+        setUserEvents(prevUserEvents => ([...prevUserEvents, ...newUserEvents]))
+    }, [userID])
 
     useEffect(() => {
 
         fetchTasks()
 
     }, [userID, fetchTasks])
+    console.log(userEvents);
 
 
     return (

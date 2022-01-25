@@ -15,10 +15,15 @@ export default function MonthlyView({ userEvents }) {
     console.log('EVENT CLICKED', info.event.title)
   }
 
-  const monthly = []
-  for (let item in userEvents){
-    monthly.push(userEvents[item])
-  }
+
+  const customButtons = {
+    myCustomButton: {
+      text: "add",
+        click: function () {
+            ('clicked the custom button!');
+        }
+    }
+}
 
   return (
     <div>
@@ -32,7 +37,14 @@ export default function MonthlyView({ userEvents }) {
         selectable
         dateClick={(info) => (dateClickHandler(info), handleUpdateState())}
         eventClick={(info) => eventClickHandler(info)}
-        events={monthly}
+        events={userEvents}
+        customButtons = {customButtons}
+        headerToolbar={{
+          right: '',
+          center: '',
+          left: 'today prev,next, myCustomButton'
+        }}
+
       />
     </div>
   );

@@ -4,10 +4,6 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 
 export default function DailyView({ userEvents }) {
 
-  const daily = []
-  for (let item in userEvents){
-    daily.push(userEvents[item])
-  }
 
   return (
     <div>
@@ -18,7 +14,7 @@ export default function DailyView({ userEvents }) {
         slotMinWidth={50}
         editable
         selectable
-        events={daily}
+        events={userEvents}
       />
     </div>
   );
