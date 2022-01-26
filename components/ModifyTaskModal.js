@@ -9,27 +9,27 @@ const customStyles = {
         bottom: 'auto',
         marginRight: '-50%',
         transform: 'translate(-50%, -50%)',
-        background: 'cyan'
+        background: 'grey'
     },
 };
 
 Modal.setAppElement('body');
 
-export default function AddTaskModal({ taskModal, openTaskModal, closeTaskModal, addTaskHandler }) {
-    
+export default function ModifyTaskModal({ modifyModal, openModifyModal, closeModifyModal, removeTaskHandler }) {
+
 
 
     return (
-        <div >
-            <button onClick={openTaskModal}>Open Modal</button>
+        <div>
+            <button onClick={openModifyModal}>Open Modal</button>
             <Modal
-                isOpen={taskModal}
-                onRequestClose={closeTaskModal}
+                isOpen={modifyModal}
+                onRequestClose={closeModifyModal}
                 style={customStyles}
-                contentLabel="Add Task Modal">
-                <button onClick={closeTaskModal}>X</button>
-                <div>Add a new task</div>
-                <form onSubmit={addTaskHandler}>
+                contentLabel="Modify Task Modal">
+                <button onClick={closeModifyModal}>X</button>
+                <div>Modify task</div>
+                <form >
                     <label id='title'>Task Title</label>
                     <input name='title' id='title' placeholder='Task Title' required />
 
@@ -42,10 +42,12 @@ export default function AddTaskModal({ taskModal, openTaskModal, closeTaskModal,
                     <input name='complete' id='complete' type='checkbox' required />
                     <label id='complete'> Complete </label>
 
-                    <button>Add Task</button>
+                    <button>Update Task</button>
+
 
                 </form>
-                    <button onClick={closeTaskModal}>Cancel</button>
+                    <button onClick={removeTaskHandler}>Delete Task</button>
+                    <button onClick={closeModifyModal}>Cancel</button>
             </Modal>
         </div>
     );

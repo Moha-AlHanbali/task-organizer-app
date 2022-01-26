@@ -4,6 +4,7 @@ import MonthlyView from './MonthlyView';
 import WeeklyView from './WeeklyView';
 import TasksView from './TasksView';
 import AddTaskModal from './AddTaskModal';
+import ModifyTaskModal from './ModifyTaskModal';
 import Sidebar from './Sidebar';
 import axios from 'axios';
 
@@ -19,17 +20,25 @@ export default function Dashboard({ user }) {
     const [userEvents, setUserEvents] = useState([]);
     const [date, setDate] = useState();
     const [activeTask, setActiveTask] = useState();
-    const [modal, showModal] = useState(false);
+    const [taskModal, showTaskModal] = useState(false);
+    const [modifyModal, showModifyModal] = useState(false);
 
     const userID = user.id;
 
-    function openModal() {
-        showModal(true);
+    function openTaskModal() {
+        showTaskModal(true);
     }
-
-    function closeModal() {
-        showModal(false);
+    function closeTaskModal() {
+        showTaskModal(false);
     }
+    function openModifyModal() {
+        showModifyModal(true);
+    }
+    function closeModifyModal() {
+        showModifyModal(false);
+        setActiveTask()
+    }
+    console.log(activeTask);
 
     const addTaskHandler = async (event) => {
         event.preventDefault()
@@ -44,28 +53,25 @@ export default function Dashboard({ user }) {
         const response = await axios.post(manageTask, task, {
             headers: { "Authorization": `Bearer ${token}` }
         })
-        closeModal()
+        closeTaskModal()
         fetchTasks()
     }
 
     const removeTaskHandler = async () => {
         const token = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY))['access']
         const task = activeTask
-
+    
         const response = await axios.delete(manageTask + task + '/', {
             headers: { "Authorization": `Bearer ${token}` }
         })
-
+        closeModifyModal()
         fetchTasks()
     }
-    // if (activeTask !== null) {
-    //     removeTaskHandler()
-    // }
+
     const customButtons = {
         addButton: {
             text: "Add a Task",
             click: function () {
-                alert('clicked the custom button!');
                 addTaskHandler()
             }
         }
@@ -120,7 +126,7 @@ export default function Dashboard({ user }) {
                         <DailyView userEvents={userEvents} />
                     </div>
                     <div className="flex w-1/3">
-                        <MonthlyView userEvents={userEvents} customButtons={customButtons} setDate={setDate} setActiveTask={setActiveTask} />
+                        <MonthlyView userEvents={userEvents} customButtons={customButtons} setDate={setDate} setActiveTask={setActiveTask} openModifyModal = {openModifyModal}/>
                     </div>
                 </div>
                 <div>
@@ -132,7 +138,12 @@ export default function Dashboard({ user }) {
                     </div>
                 </div>
             </div >
-            <AddTaskModal modal={modal} openModal={openModal} closeModal={closeModal} addTaskHandler={addTaskHandler} />
+            <div>
+                <AddTaskModal taskModal={taskModal} openTaskModal={openTaskModal} addTaskHandler={addTaskHandler} closeTaskModal={closeTaskModal} />
+            </div>
+            <div>
+                <ModifyTaskModal modifyModal={modifyModal} openModifyModal={openModifyModal} removeTaskHandler={removeTaskHandler} closeModifyModal={closeModifyModal} />
+            </div>
         </div>
     );
 }

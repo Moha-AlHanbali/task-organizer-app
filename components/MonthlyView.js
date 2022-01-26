@@ -3,7 +3,7 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 
-export default function MonthlyView({ userEvents, customButtons, setDate, setActiveTask }) {
+export default function MonthlyView({ userEvents, customButtons, setDate, setActiveTask, openModifyModal }) {
 
   const calendarRef = useRef()
 
@@ -13,8 +13,8 @@ export default function MonthlyView({ userEvents, customButtons, setDate, setAct
   }
 
   let eventClickHandler = (info) => {
-    console.log('EVENT CLICKED', info.event.title, info.event.id)
     setActiveTask(info.event.id)
+    openModifyModal()
   }
 
 
