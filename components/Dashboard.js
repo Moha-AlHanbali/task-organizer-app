@@ -3,6 +3,7 @@ import DailyView from './DailyView';
 import MonthlyView from './MonthlyView';
 import WeeklyView from './WeeklyView';
 import TasksView from './TasksView';
+import AddTaskModal from './AddTaskModal';
 import Sidebar from './Sidebar';
 import axios from 'axios';
 
@@ -18,22 +19,32 @@ export default function Dashboard({ user }) {
     const [userEvents, setUserEvents] = useState([]);
     const [date, setDate] = useState();
     const [activeTask, setActiveTask] = useState();
+    const [modal, showModal] = useState(false);
 
-    console.log(activeTask);
     const userID = user.id;
 
-    const addTaskHandler = async () => {
+    function openModal() {
+        showModal(true);
+    }
+
+    function closeModal() {
+        showModal(false);
+    }
+
+    const addTaskHandler = async (event) => {
+        event.preventDefault()
+
         const token = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY))['access']
         const task = {
-            'title': 'REQUEST',
-            'details': 'TESTING',
-            'date': '2022-1-27T10:45:39Z',
-            'complete': false,
+            'title': event.target.title.value,
+            'details': event.target.details.value,
+            'date': event.target.date.value,
+            'complete': event.target.complete.value,
         }
         const response = await axios.post(manageTask, task, {
             headers: { "Authorization": `Bearer ${token}` }
         })
-
+        closeModal()
         fetchTasks()
     }
 
@@ -47,9 +58,9 @@ export default function Dashboard({ user }) {
 
         fetchTasks()
     }
-    if (activeTask !== null) {
-        removeTaskHandler()
-    }
+    // if (activeTask !== null) {
+    //     removeTaskHandler()
+    // }
     const customButtons = {
         addButton: {
             text: "Add a Task",
@@ -121,6 +132,7 @@ export default function Dashboard({ user }) {
                     </div>
                 </div>
             </div >
+            <AddTaskModal modal={modal} openModal={openModal} closeModal={closeModal} addTaskHandler={addTaskHandler} />
         </div>
     );
 }
