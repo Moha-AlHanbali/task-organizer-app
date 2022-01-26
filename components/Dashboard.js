@@ -3,8 +3,11 @@ import DailyView from './DailyView';
 import MonthlyView from './MonthlyView';
 import WeeklyView from './WeeklyView';
 import TasksView from './TasksView';
+import AddTaskModal from './AddTaskModal';
+import ModifyTaskModal from './ModifyTaskModal';
 import Sidebar from './Sidebar';
 import axios from 'axios';
+import moment from 'moment';
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 const manageTask = baseUrl + '/tasks/';
@@ -16,46 +19,99 @@ export default function Dashboard({ user }) {
 
     const [tasks, setTasks] = useState();
     const [userEvents, setUserEvents] = useState([]);
-    const [date, setDate] = useState();
+    const [activeDate, setActiveDate] = useState();
     const [activeTask, setActiveTask] = useState();
+    const [taskModal, showTaskModal] = useState(false);
+    const [modifyModal, showModifyModal] = useState(false);
 
-    console.log(activeTask);
     const userID = user.id;
 
-    const addTaskHandler = async () => {
+    const openTaskModal = () => {
+        if (modifyModal === true) closeModifyModal()
+        showTaskModal(true);
+    }
+    const closeTaskModal = () => {
+        showTaskModal(false);
+        setActiveDate()
+    }
+    const openModifyModal = () => {
+        if (taskModal === true) closeTaskModal()
+        showModifyModal(true);
+    }
+    const closeModifyModal = () => {
+        showModifyModal(false);
+        setActiveTask()
+    }
+
+    const dateClickHandler = (info) => {
+        const date = `${moment(info.date.toISOString()).utcOffset(0, true).format().slice(0, 16)}`;
+        if (taskModal === true) closeTaskModal()
+        setActiveDate(date)
+        openTaskModal()
+    }
+
+    const eventClickHandler = (info) => {
+        const task = tasks[info.event.id]
+        task['id'] = info.event.id
+        if (modifyModal === true) closeModifyModal()
+        setActiveTask(task)
+        openModifyModal()
+    }
+
+
+    const addTaskHandler = async (event) => {
+        event.preventDefault()
+
         const token = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY))['access']
         const task = {
-            'title': 'REQUEST',
-            'details': 'TESTING',
-            'date': '2022-1-27T10:45:39Z',
-            'complete': false,
+            'title': event.target.title.value,
+            'details': event.target.details.value,
+            'date': event.target.date.value,
+            'complete': event.target.complete.value,
         }
         const response = await axios.post(manageTask, task, {
             headers: { "Authorization": `Bearer ${token}` }
         })
+        closeTaskModal()
+        fetchTasks()
+    }
 
+    const updateTaskHandler = async (event) => {
+        event.preventDefault()
+
+        const token = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY))['access']
+        const taskID = activeTask.id
+        const task = {
+            'title': event.target.title.value,
+            'details': event.target.details.value,
+            'date': event.target.date.value,
+            'complete': event.target.complete.value,
+        }
+
+        const response = await axios.put(manageTask + taskID + '/',task,  {
+            headers: { "Authorization": `Bearer ${token}` }
+        })
+        closeModifyModal()
         fetchTasks()
     }
 
     const removeTaskHandler = async () => {
         const token = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY))['access']
-        const task = activeTask
+        const taskID = activeTask.id
 
-        const response = await axios.delete(manageTask + task + '/', {
+        const response = await axios.delete(manageTask + taskID + '/', {
             headers: { "Authorization": `Bearer ${token}` }
         })
-
+        closeModifyModal()
         fetchTasks()
     }
-    if (activeTask !== null) {
-        removeTaskHandler()
-    }
+
+    
     const customButtons = {
         addButton: {
             text: "Add a Task",
             click: function () {
-                alert('clicked the custom button!');
-                addTaskHandler()
+                openTaskModal()
             }
         }
     }
@@ -63,7 +119,6 @@ export default function Dashboard({ user }) {
 
     const fetchTasks = useCallback(async () => {
         const response = await axios.post(retrieveTasks, { 'userID': userID })
-        console.log(response.data);
 
         const newTasks = response.data
 
@@ -109,7 +164,7 @@ export default function Dashboard({ user }) {
                         <DailyView userEvents={userEvents} />
                     </div>
                     <div className="flex w-1/3">
-                        <MonthlyView userEvents={userEvents} customButtons={customButtons} setDate={setDate} setActiveTask={setActiveTask} />
+                        <MonthlyView userEvents={userEvents} customButtons={customButtons} dateClickHandler={dateClickHandler} eventClickHandler={eventClickHandler} />
                     </div>
                 </div>
                 <div>
@@ -121,6 +176,12 @@ export default function Dashboard({ user }) {
                     </div>
                 </div>
             </div >
+            <div>
+                <AddTaskModal taskModal={taskModal} openTaskModal={openTaskModal} addTaskHandler={addTaskHandler} closeTaskModal={closeTaskModal} activeDate={activeDate} />
+            </div>
+            <div>
+                <ModifyTaskModal modifyModal={modifyModal} openModifyModal={openModifyModal} updateTaskHandler = {updateTaskHandler} removeTaskHandler={removeTaskHandler} closeModifyModal={closeModifyModal} activeTask = {activeTask} />
+            </div>
         </div>
     );
 }
