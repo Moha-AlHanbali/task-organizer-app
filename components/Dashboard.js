@@ -26,35 +26,34 @@ export default function Dashboard({ user }) {
 
     const userID = user.id;
 
-    function openTaskModal() {
+    const openTaskModal = () => {
         if (modifyModal === true) closeModifyModal()
-        if (taskModal === true) closeTaskModal()
         showTaskModal(true);
     }
-    function closeTaskModal() {
+    const closeTaskModal = () => {
         showTaskModal(false);
-        setActiveTask()
+        setActiveDate()
     }
-    function openModifyModal() {
+    const openModifyModal = () => {
         if (taskModal === true) closeTaskModal()
-        if (modifyModal === true) closeModifyModal()
         showModifyModal(true);
     }
-    function closeModifyModal() {
+    const closeModifyModal = () => {
         showModifyModal(false);
         setActiveTask()
     }
 
-    let dateClickHandler = (info) => {
+    const dateClickHandler = (info) => {
         const date = `${moment(info.date.toISOString()).utcOffset(0, true).format().slice(0, 16)}`;
+        if (taskModal === true) closeTaskModal()
         setActiveDate(date)
         openTaskModal()
     }
 
-    let eventClickHandler = (info) => {
+    const eventClickHandler = (info) => {
         const task = tasks[info.event.id]
-        console.log(info.event.id);
         task['id'] = info.event.id
+        if (modifyModal === true) closeModifyModal()
         setActiveTask(task)
         openModifyModal()
     }
@@ -88,7 +87,6 @@ export default function Dashboard({ user }) {
             'date': event.target.date.value,
             'complete': event.target.complete.value,
         }
-        console.log(token);
 
         const response = await axios.put(manageTask + taskID + '/',task,  {
             headers: { "Authorization": `Bearer ${token}` }
