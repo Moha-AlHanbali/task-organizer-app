@@ -15,9 +15,7 @@ const customStyles = {
 
 Modal.setAppElement('body');
 
-export default function AddTaskModal({ taskModal, openTaskModal, closeTaskModal, addTaskHandler }) {
-    
-
+export default function AddTaskModal({ taskModal, openTaskModal, closeTaskModal, addTaskHandler, activeDate }) {
 
     return (
         <div >
@@ -37,15 +35,15 @@ export default function AddTaskModal({ taskModal, openTaskModal, closeTaskModal,
                     <textarea name='details' id='details' placeholder='details' required />
 
                     <label id='date'>Task Date and Time</label>
-                    <input name='date' id='date' type='datetime-local' required />
+                    <input name='date' id='date' type='datetime-local' defaultValue={activeDate} required />
 
-                    <input name='complete' id='complete' type='checkbox' required />
+                    <input name='complete' id='complete' type='checkbox' />
                     <label id='complete'> Complete </label>
 
                     <button>Add Task</button>
 
                 </form>
-                    <button onClick={closeTaskModal}>Cancel</button>
+                <button onClick={closeTaskModal}>Cancel</button>
             </Modal>
         </div>
     );

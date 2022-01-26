@@ -7,6 +7,7 @@ import AddTaskModal from './AddTaskModal';
 import ModifyTaskModal from './ModifyTaskModal';
 import Sidebar from './Sidebar';
 import axios from 'axios';
+import moment from 'moment';
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 const manageTask = baseUrl + '/tasks/';
@@ -18,7 +19,7 @@ export default function Dashboard({ user }) {
 
     const [tasks, setTasks] = useState();
     const [userEvents, setUserEvents] = useState([]);
-    const [date, setDate] = useState();
+    const [activeDate, setActiveDate] = useState();
     const [activeTask, setActiveTask] = useState();
     const [taskModal, showTaskModal] = useState(false);
     const [modifyModal, showModifyModal] = useState(false);
@@ -26,19 +27,38 @@ export default function Dashboard({ user }) {
     const userID = user.id;
 
     function openTaskModal() {
+        if (modifyModal === true) closeModifyModal()
+        if (taskModal === true) closeTaskModal()
         showTaskModal(true);
     }
     function closeTaskModal() {
         showTaskModal(false);
+        setActiveTask()
     }
     function openModifyModal() {
+        if (taskModal === true) closeTaskModal()
+        if (modifyModal === true) closeModifyModal()
         showModifyModal(true);
     }
     function closeModifyModal() {
         showModifyModal(false);
         setActiveTask()
     }
-    console.log(activeTask);
+
+    let dateClickHandler = (info) => {
+        const date = `${moment(info.date.toISOString()).utcOffset(0, true).format().slice(0, 16)}`;
+        setActiveDate(date)
+        openTaskModal()
+    }
+
+    let eventClickHandler = (info) => {
+        const task = tasks[info.event.id]
+        console.log(info.event.id);
+        task['id'] = info.event.id
+        setActiveTask(task)
+        openModifyModal()
+    }
+
 
     const addTaskHandler = async (event) => {
         event.preventDefault()
@@ -57,22 +77,43 @@ export default function Dashboard({ user }) {
         fetchTasks()
     }
 
-    const removeTaskHandler = async () => {
+    const updateTaskHandler = async (event) => {
+        event.preventDefault()
+
         const token = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY))['access']
-        const task = activeTask
-    
-        const response = await axios.delete(manageTask + task + '/', {
+        const taskID = activeTask.id
+        const task = {
+            'title': event.target.title.value,
+            'details': event.target.details.value,
+            'date': event.target.date.value,
+            'complete': event.target.complete.value,
+        }
+        console.log(token);
+
+        const response = await axios.put(manageTask + taskID + '/',task,  {
             headers: { "Authorization": `Bearer ${token}` }
         })
         closeModifyModal()
         fetchTasks()
     }
 
+    const removeTaskHandler = async () => {
+        const token = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY))['access']
+        const taskID = activeTask.id
+
+        const response = await axios.delete(manageTask + taskID + '/', {
+            headers: { "Authorization": `Bearer ${token}` }
+        })
+        closeModifyModal()
+        fetchTasks()
+    }
+
+    
     const customButtons = {
         addButton: {
             text: "Add a Task",
             click: function () {
-                addTaskHandler()
+                openTaskModal()
             }
         }
     }
@@ -80,7 +121,6 @@ export default function Dashboard({ user }) {
 
     const fetchTasks = useCallback(async () => {
         const response = await axios.post(retrieveTasks, { 'userID': userID })
-        console.log(response.data);
 
         const newTasks = response.data
 
@@ -126,7 +166,7 @@ export default function Dashboard({ user }) {
                         <DailyView userEvents={userEvents} />
                     </div>
                     <div className="flex w-1/3">
-                        <MonthlyView userEvents={userEvents} customButtons={customButtons} setDate={setDate} setActiveTask={setActiveTask} openModifyModal = {openModifyModal}/>
+                        <MonthlyView userEvents={userEvents} customButtons={customButtons} dateClickHandler={dateClickHandler} eventClickHandler={eventClickHandler} />
                     </div>
                 </div>
                 <div>
@@ -139,10 +179,10 @@ export default function Dashboard({ user }) {
                 </div>
             </div >
             <div>
-                <AddTaskModal taskModal={taskModal} openTaskModal={openTaskModal} addTaskHandler={addTaskHandler} closeTaskModal={closeTaskModal} />
+                <AddTaskModal taskModal={taskModal} openTaskModal={openTaskModal} addTaskHandler={addTaskHandler} closeTaskModal={closeTaskModal} activeDate={activeDate} />
             </div>
             <div>
-                <ModifyTaskModal modifyModal={modifyModal} openModifyModal={openModifyModal} removeTaskHandler={removeTaskHandler} closeModifyModal={closeModifyModal} />
+                <ModifyTaskModal modifyModal={modifyModal} openModifyModal={openModifyModal} updateTaskHandler = {updateTaskHandler} removeTaskHandler={removeTaskHandler} closeModifyModal={closeModifyModal} activeTask = {activeTask} />
             </div>
         </div>
     );

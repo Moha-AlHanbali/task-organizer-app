@@ -15,40 +15,40 @@ const customStyles = {
 
 Modal.setAppElement('body');
 
-export default function ModifyTaskModal({ modifyModal, openModifyModal, closeModifyModal, removeTaskHandler }) {
+export default function ModifyTaskModal({ modifyModal, closeModifyModal, updateTaskHandler, removeTaskHandler, activeTask }) {
 
 
 
     return (
-        <div>
-            <button onClick={openModifyModal}>Open Modal</button>
-            <Modal
-                isOpen={modifyModal}
-                onRequestClose={closeModifyModal}
-                style={customStyles}
-                contentLabel="Modify Task Modal">
-                <button onClick={closeModifyModal}>X</button>
-                <div>Modify task</div>
-                <form >
-                    <label id='title'>Task Title</label>
-                    <input name='title' id='title' placeholder='Task Title' required />
+        activeTask ?
+            <div>
+                <Modal
+                    isOpen={modifyModal}
+                    onRequestClose={closeModifyModal}
+                    style={customStyles}
+                    contentLabel="Modify Task Modal">
+                    <button onClick={closeModifyModal}>X</button>
+                    <div>Modify task</div>
+                    <form onSubmit={updateTaskHandler}>
+                        <label id='title'>Task Title</label>
+                        <input name='title' id='title' placeholder='Task Title' defaultValue={activeTask.title} required />
 
-                    <label id='details'>Task Description</label>
-                    <textarea name='details' id='details' placeholder='details' required />
+                        <label id='details'>Task Description</label>
+                        <textarea name='details' id='details' placeholder='details' defaultValue={activeTask.details} required />
 
-                    <label id='date'>Task Date and Time</label>
-                    <input name='date' id='date' type='datetime-local' required />
+                        <label id='date'>Task Date and Time</label>
+                        <input name='date' id='date' type='datetime-local' required defaultValue={activeTask.date.slice(0, 16)} />
 
-                    <input name='complete' id='complete' type='checkbox' required />
-                    <label id='complete'> Complete </label>
+                        <input name='complete' id='complete' type='checkbox' defaultValue={activeTask.complete} />
+                        <label id='complete'> Complete </label>
 
-                    <button>Update Task</button>
+                        <button>Update Task</button>
 
 
-                </form>
+                    </form>
                     <button onClick={removeTaskHandler}>Delete Task</button>
                     <button onClick={closeModifyModal}>Cancel</button>
-            </Modal>
-        </div>
+                </Modal>
+            </div> : <></>
     );
 }
