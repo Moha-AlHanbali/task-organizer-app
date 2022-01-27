@@ -3,23 +3,25 @@ import Modal from 'react-modal';
 
 const customStyles = {
     content: {
+        position: 'fixed',
         top: '50%',
         left: '50%',
         right: 'auto',
         bottom: 'auto',
         marginRight: '-50%',
         transform: 'translate(-50%, -50%)',
-        background: 'cyan'
+        backgroundColor: 'cyan',
     },
+    overlay: {zIndex: 10},
+
 };
 
 Modal.setAppElement('body');
 
-export default function AddTaskModal({ taskModal, openTaskModal, closeTaskModal, addTaskHandler, activeDate }) {
+export default function AddTaskModal({ taskModal, closeTaskModal, addTaskHandler, activeDate }) {
 
     return (
         <div >
-            <button onClick={openTaskModal}>Open Modal</button>
             <Modal
                 isOpen={taskModal}
                 onRequestClose={closeTaskModal}
