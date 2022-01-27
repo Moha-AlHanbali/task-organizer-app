@@ -163,7 +163,7 @@ export default function Dashboard({ user }) {
             <div>
                 <div>
                     <div className="flex w-1/3">
-                        <DailyView userEvents={userEvents} />
+                        <DailyView userEvents={userEvents} customButtons={customButtons} dateClickHandler={dateClickHandler} eventClickHandler={eventClickHandler} />
                     </div>
                     <div className="flex w-1/3">
                         <MonthlyView userEvents={userEvents} customButtons={customButtons} dateClickHandler={dateClickHandler} eventClickHandler={eventClickHandler} />
@@ -171,7 +171,7 @@ export default function Dashboard({ user }) {
                 </div>
                 <div>
                     <div>
-                        <WeeklyView userEvents={userEvents} />
+                        <WeeklyView userEvents={userEvents} customButtons={customButtons} dateClickHandler={dateClickHandler} eventClickHandler={eventClickHandler} />
                     </div>
                     <div>
                         <TasksView />
