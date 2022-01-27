@@ -43,6 +43,7 @@ export default function Dashboard({ user }) {
         setActiveTask()
     }
 
+
     const dateClickHandler = (info) => {
         const date = `${moment(info.date.toISOString()).utcOffset(0, true).format().slice(0, 16)}`;
         if (taskModal === true) closeTaskModal()
@@ -67,8 +68,9 @@ export default function Dashboard({ user }) {
             'title': event.target.title.value,
             'details': event.target.details.value,
             'date': event.target.date.value,
-            'complete': event.target.complete.value,
+            'complete': event.target.complete.checked,
         }
+
         const response = await axios.post(manageTask, task, {
             headers: { "Authorization": `Bearer ${token}` }
         })
@@ -85,7 +87,7 @@ export default function Dashboard({ user }) {
             'title': event.target.title.value,
             'details': event.target.details.value,
             'date': event.target.date.value,
-            'complete': event.target.complete.value,
+            'complete': event.target.complete.checked,
         }
 
         const response = await axios.put(manageTask + taskID + '/',task,  {
@@ -180,8 +182,9 @@ export default function Dashboard({ user }) {
                 <AddTaskModal taskModal={taskModal} openTaskModal={openTaskModal} addTaskHandler={addTaskHandler} closeTaskModal={closeTaskModal} activeDate={activeDate} />
             </div>
             <div>
-                <ModifyTaskModal modifyModal={modifyModal} openModifyModal={openModifyModal} updateTaskHandler = {updateTaskHandler} removeTaskHandler={removeTaskHandler} closeModifyModal={closeModifyModal} activeTask = {activeTask} />
+                <ModifyTaskModal modifyModal={modifyModal} openModifyModal={openModifyModal}  updateTaskHandler = {updateTaskHandler} removeTaskHandler={removeTaskHandler} closeModifyModal={closeModifyModal} activeTask = {activeTask}/>
             </div>
+
         </div>
     );
 }
