@@ -5,6 +5,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 
 export default function MonthlyView({ userEvents, customButtons, dateClickHandler, eventClickHandler }) {
 
+  const monthly = userEvents.map(task => ({ ...task, 'date': task.  date.slice(0,10) }))
 
   return (
     <div>
@@ -17,7 +18,7 @@ export default function MonthlyView({ userEvents, customButtons, dateClickHandle
         selectable
         dateClick={(info) => dateClickHandler(info)}
         eventClick={(info) => eventClickHandler(info)}
-        events={userEvents}
+        events={monthly}
         customButtons={customButtons}
         headerToolbar={{
           right: 'today ,prev,next',

@@ -18,11 +18,10 @@ const customStyles = {
 
 Modal.setAppElement('body');
 
-export default function AddTaskModal({ taskModal, openTaskModal, closeTaskModal, addTaskHandler, activeDate }) {
+export default function AddTaskModal({ taskModal, closeTaskModal, addTaskHandler, activeDate }) {
 
     return (
         <div >
-            <button onClick={openTaskModal}>Open Modal</button>
             <Modal
                 isOpen={taskModal}
                 onRequestClose={closeTaskModal}

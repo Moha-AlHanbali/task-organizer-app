@@ -179,10 +179,10 @@ export default function Dashboard({ user }) {
                 </div>
             </div >
             <div>
-                <AddTaskModal taskModal={taskModal} openTaskModal={openTaskModal} addTaskHandler={addTaskHandler} closeTaskModal={closeTaskModal} activeDate={activeDate} />
+                <AddTaskModal taskModal={taskModal} addTaskHandler={addTaskHandler} closeTaskModal={closeTaskModal} activeDate={activeDate} />
             </div>
             <div>
-                <ModifyTaskModal modifyModal={modifyModal} openModifyModal={openModifyModal}  updateTaskHandler = {updateTaskHandler} removeTaskHandler={removeTaskHandler} closeModifyModal={closeModifyModal} activeTask = {activeTask}/>
+                <ModifyTaskModal modifyModal={modifyModal} updateTaskHandler = {updateTaskHandler} removeTaskHandler={removeTaskHandler} closeModifyModal={closeModifyModal} activeTask = {activeTask}/>
             </div>
 
         </div>
