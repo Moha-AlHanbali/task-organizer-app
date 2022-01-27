@@ -12,6 +12,8 @@ const customStyles = {
         transform: 'translate(-50%, -50%)',
         background: 'grey'
     },
+    overlay: {zIndex: 10},
+
 };
 
 Modal.setAppElement('body');
