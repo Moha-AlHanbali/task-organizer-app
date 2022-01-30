@@ -28,18 +28,18 @@ export default function Login({ login }) {
                                 </label>
                             </div>
                             <div className='w-3/4'>
-                                <input name='password' id='password' placeholder='password' type='password' required className='w-full px-3 py-2 leading-tight text-gray-700 border rounded appearance-none focus:outline-none ' />
+                                <input name='password' id='password' placeholder='password' type='password' required className='w-full px-3 py-2 leading-tight text-gray-700 border rounded appearance-none focus:outline-none' />
                             </div>
                         </div>
 
                         <div className='flex items-center justify-between mt-10'>
-                            <button type='submit' className='w-2/6 px-4 py-2 font-bold text-white bg-blue-500 rounded shadow hover:bg-orange-500 focus:shadow-outline focus:outline-none" type="button'>
+                            <button type='submit' className='w-2/6 px-4 py-2 font-bold text-white bg-blue-500 rounded shadow hover:bg-blue-400 focus:shadow-outline focus:outline-none active:bg-blue-700 type="button'>
                                 Login
                             </button>
 
                             <div className='w-2/6'>
                             </div>
-                            <button onClick={() => { router.push('/register') }} type='submit' className='w-2/6 px-4 py-2 font-bold text-white bg-orange-500 rounded shadow hover:bg-blue-500 focus:shadow-outline focus:outline-none" type="button'> Sign Up </button>
+                            <button onClick={() => { router.push('/register') }} type='submit' className='w-2/6 px-4 py-2 font-bold text-white bg-orange-500 rounded shadow hover:bg-orange-400 focus:shadow-outline active:bg-orange-700 focus:outline-none type="button'> Sign Up </button>
                         </div>
                     </form>
                 </div>
