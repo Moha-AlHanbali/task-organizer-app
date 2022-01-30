@@ -19,7 +19,8 @@ export default function Home() {
       </Head>
 
       <main>
-        {user ? <> <Sidebar /><Dashboard user={user} /></> : <> <Login login={login} /> </>}
+        {user ? <> 
+        <Sidebar /><Dashboard user={user} /></> : <> <Login login={login} /> </>}
       </main>
 
       <footer>
