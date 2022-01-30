@@ -1,12 +1,11 @@
 import { useAuth } from '../contexts/auth'
 
 import Head from 'next/head'
-import Login from '../components/Login'
-import Signup from '../components/Signup';
-import Dashboard from '../components/Dashboard';
 
-import Profile
- from '../components/Profile';
+import Login from '../components/Login'
+import Dashboard from '../components/Dashboard';
+import Sidebar from '../components/Sidebar';
+
 export default function Home() {
 
   const { user, login } = useAuth();
@@ -20,7 +19,7 @@ export default function Home() {
       </Head>
 
       <main>
-        {user ? <> <Profile /> <Dashboard user={user} /></> : <> <Login login={login} /> <Signup login={login} /> </>}
+        {user ? <> <Sidebar /><Dashboard user={user} /></> : <> <Login login={login} /> </>}
       </main>
 
       <footer>

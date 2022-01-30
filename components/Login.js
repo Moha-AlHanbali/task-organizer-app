@@ -32,7 +32,7 @@ export default function Login({ login }) {
             </div>
 
             <div>
-                <p>Not a member yet? <a onClick={null}> Sign Up here!</a></p>
+                <p>Not a member yet? <a onClick={() => {router.push('/register')}}> Sign Up here!</a></p>
             </div>
         </>
 

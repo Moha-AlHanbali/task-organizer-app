@@ -1,5 +1,6 @@
 import React from 'react';
 import { useAuth } from '../contexts/auth'
+import Sidebar from './Sidebar';
 
 export default function Profile() {
     const { user } = useAuth();
@@ -9,7 +10,8 @@ export default function Profile() {
         return Math.floor(ageInMilliseconds / 1000 / 60 / 60 / 24 / 365);
     }
     return (
-        <div>
+        <>
+       {user ? <div>
             <h4>
                 username: {user.username}
             </h4>
@@ -29,5 +31,7 @@ export default function Profile() {
                 age: {getAge(user.age)}
             </h4>
         </div>
+        : <p>Loading</p>}
+        </>
     );
 }

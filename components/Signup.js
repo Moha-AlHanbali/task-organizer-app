@@ -1,10 +1,15 @@
 import React from 'react';
 import axios from 'axios';
+import { useAuth } from '../contexts/auth'
+import { useRouter } from 'next/router'
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 const register_url = baseUrl + '/accounts/register/';
 
-export default function Signup({ login }) {
+export default function Signup() {
+
+  const { login } = useAuth();
+  const router = useRouter()
 
   async function handleRegister(e) {
     e.preventDefault();
@@ -29,6 +34,7 @@ try{
   if (response.status == 201) {
     alert('Account successfully created')
     login(e.target.userName.value, e.target.password1.value)
+    router.push('/')
   }
 }
 catch(err){
@@ -38,6 +44,7 @@ catch(err){
 
   return (
     <div>
+      <a onClick={() => {router.push('/')}}>Return</a>
       <form onSubmit={handleRegister}>
 
         <div>
