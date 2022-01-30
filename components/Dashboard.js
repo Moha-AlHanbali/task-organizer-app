@@ -5,7 +5,6 @@ import WeeklyView from './WeeklyView';
 import TasksView from './TasksView';
 import AddTaskModal from './AddTaskModal';
 import ModifyTaskModal from './ModifyTaskModal';
-import Sidebar from './Sidebar';
 import axios from 'axios';
 import moment from 'moment';
 
@@ -157,9 +156,6 @@ export default function Dashboard({ user }) {
 
     return (
         <div>
-            <div>
-                <Sidebar userName={user.username} />
-            </div>
             <div>
                 <div>
                     <div className="flex w-1/3">
