@@ -1,6 +1,5 @@
 import React from 'react';
 import { useAuth } from '../contexts/auth'
-import Sidebar from './Sidebar';
 
 export default function Profile() {
     const { user } = useAuth();
@@ -11,27 +10,28 @@ export default function Profile() {
     }
     return (
         <>
-       {user ? <div>
-            <h4>
-                username: {user.username}
-            </h4>
-            <h4>
-                email: {user.email}
-            </h4>
-            <h4>
-                first name: {user.firstName}
-            </h4>
-            <h4>
-                last name: {user.lastName}
-            </h4>
-            <h4>
-                birth date: {user.age.slice(1,-1)}
-            </h4>
-            <h4>
-                age: {getAge(user.age)}
-            </h4>
-        </div>
-        : <p>Loading</p>}
+            {user ?
+                <div>
+                    <h4>
+                        Username: {user.username}
+                    </h4>
+                    <h4>
+                        E-mail: {user.email}
+                    </h4>
+                    <h4>
+                        First Name: {user.firstName}
+                    </h4>
+                    <h4>
+                        Last Name: {user.lastName}
+                    </h4>
+                    <h4>
+                        BirthDate: {user.age.slice(1, -1)}
+                    </h4>
+                    <h4>
+                        Age: {getAge(user.age)}
+                    </h4>
+                </div>
+                : <p>Loading</p>}
         </>
     );
 }
