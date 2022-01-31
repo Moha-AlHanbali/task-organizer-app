@@ -2,7 +2,7 @@ import React from 'react';
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from '@fullcalendar/daygrid';
 
-export default function DailyView({ userEvents, customButtons, dateClickHandler, eventClickHandler }) {
+export default function DailyView({ userEvents, customButtons, eventClickHandler }) {
 
 
   return (
@@ -18,8 +18,8 @@ export default function DailyView({ userEvents, customButtons, dateClickHandler,
         events={userEvents}
         customButtons={customButtons}
         headerToolbar={{
-          right: 'today ,prev,next',
-          center: '',
+          right: 'today,prev,next',
+          center: 'title',
           left: 'addButton'
         }}
       />

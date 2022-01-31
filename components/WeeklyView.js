@@ -12,7 +12,6 @@ export default function WeeklyView({ userEvents, customButtons, dateClickHandler
         plugins={[dayGridPlugin, interactionPlugin]}
         initialView='dayGridWeek'
         height={'auto'}
-        slotMinWidth={50}
         editable
         selectable
         dateClick={(info) => dateClickHandler(info)}
@@ -20,8 +19,8 @@ export default function WeeklyView({ userEvents, customButtons, dateClickHandler
         events={userEvents}
         customButtons={customButtons}
         headerToolbar={{
-          right: 'today ,prev,next',
-          center: '',
+          right: 'today,prev,next',
+          center: 'title',
           left: 'addButton'
         }}
       />

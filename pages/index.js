@@ -1,7 +1,6 @@
 import { useAuth } from '../contexts/auth'
 
 import Head from 'next/head'
-
 import Login from '../components/Login'
 import Dashboard from '../components/Dashboard';
 import Sidebar from '../components/Sidebar';
@@ -20,7 +19,13 @@ export default function Home() {
 
       <main>
         {user ? <> 
-        <Sidebar /><Dashboard user={user} /></> : <> <Login login={login} /> </>}
+        <div className="flex-col w-full md:flex md:flex-row md:min-h-screen">
+        <Sidebar /><Dashboard user={user} />
+        </div>
+        
+        </> 
+          
+          : <> <Login login={login} /> </>}
       </main>
 
       <footer>
