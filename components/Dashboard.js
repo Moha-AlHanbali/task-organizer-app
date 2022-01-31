@@ -6,6 +6,7 @@ import AddTaskModal from './AddTaskModal';
 import ModifyTaskModal from './ModifyTaskModal';
 import axios from 'axios';
 import moment from 'moment';
+import Loading from './Loading';
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 const manageTask = baseUrl + '/tasks/';
@@ -156,6 +157,7 @@ export default function Dashboard({ user }) {
 
 
     return (
+        user ?
         <div>
             <div>
                 <div className='flex flex-row items-center justify-between flex-shrink-0 h-full px-8 py-4'>
@@ -182,6 +184,6 @@ export default function Dashboard({ user }) {
                 <ModifyTaskModal modifyModal={modifyModal} updateTaskHandler={updateTaskHandler} removeTaskHandler={removeTaskHandler} closeModifyModal={closeModifyModal} activeTask={activeTask} />
             </div>
 
-        </div>
+        </div> : <Loading />
     );
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useAuth } from '../contexts/auth'
+import Loading from './Loading';
 
 export default function Profile() {
     const { user } = useAuth();
@@ -31,7 +32,7 @@ export default function Profile() {
                         Age: {getAge(user.age)}
                     </h4>
                 </div>
-                : <p>Loading</p>}
+                : <Loading />}
         </>
     );
 }

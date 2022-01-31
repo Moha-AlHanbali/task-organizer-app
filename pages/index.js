@@ -1,7 +1,6 @@
 import { useAuth } from '../contexts/auth'
 
 import Head from 'next/head'
-
 import Login from '../components/Login'
 import Dashboard from '../components/Dashboard';
 import Sidebar from '../components/Sidebar';
