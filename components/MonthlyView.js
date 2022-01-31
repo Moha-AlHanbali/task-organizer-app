@@ -5,7 +5,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 
 export default function MonthlyView({ userEvents, customButtons, dateClickHandler, eventClickHandler }) {
 
-  const monthly = userEvents.map(task => ({ ...task, 'date': task.  date.slice(0,10) }))
+  const monthly = userEvents.map(task => ({ ...task, 'date': task.date.slice(0, 10) }))
 
   return (
     <div>
@@ -13,7 +13,6 @@ export default function MonthlyView({ userEvents, customButtons, dateClickHandle
         plugins={[dayGridPlugin, interactionPlugin]}
         initialView='dayGridMonth'
         height={'auto'}
-        slotMinWidth={50}
         editable
         selectable
         dateClick={(info) => dateClickHandler(info)}
@@ -21,11 +20,10 @@ export default function MonthlyView({ userEvents, customButtons, dateClickHandle
         events={monthly}
         customButtons={customButtons}
         headerToolbar={{
-          right: 'today ,prev,next',
-          center: '',
+          right: 'today,prevYear,prev,next,nextYear',
+          center: 'title',
           left: 'addButton'
         }}
-
       />
     </div>
   );

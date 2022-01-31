@@ -2,7 +2,6 @@ import { React, useState, useEffect, useCallback } from 'react';
 import DailyView from './DailyView';
 import MonthlyView from './MonthlyView';
 import WeeklyView from './WeeklyView';
-import TasksView from './TasksView';
 import AddTaskModal from './AddTaskModal';
 import ModifyTaskModal from './ModifyTaskModal';
 import axios from 'axios';
@@ -89,7 +88,7 @@ export default function Dashboard({ user }) {
             'complete': event.target.complete.checked,
         }
 
-        const response = await axios.put(manageTask + taskID + '/',task,  {
+        const response = await axios.put(manageTask + taskID + '/', task, {
             headers: { "Authorization": `Bearer ${token}` }
         })
         closeModifyModal()
@@ -107,10 +106,10 @@ export default function Dashboard({ user }) {
         fetchTasks()
     }
 
-    
+
     const customButtons = {
         addButton: {
-            text: "Add a Task",
+            text: "Add Task",
             click: function () {
                 openTaskModal()
             }
@@ -124,24 +123,26 @@ export default function Dashboard({ user }) {
         const newTasks = response.data
 
         setTasks(prevTasks => ({ ...prevTasks, ...newTasks }))
-
         const newUserEvents = []
 
         for (const [key, value] of Object.entries(response.data)) {
             const newEvent = []
             for (const [key2, value2] of Object.entries(value)) {
                 newEvent['id'] = key
-                if (key2 == 'title') {
+                if (key2 === 'title') {
                     newEvent['title'] = value2;
-                } else if (key2 == 'date') {
+                } else if (key2 === 'date') {
                     newEvent['date'] = value2
-                } else if (key2 == 'details') {
+                } else if (key2 === 'details') {
                     newEvent['description'] = value2
+                } else if (key2 === 'complete') {
+                    if (value2 === true) newEvent['color'] = '#64afe1'
+                    else newEvent['color'] = '#e16464'
                 }
             }
             newUserEvents.push(newEvent)
         }
-
+        
         setUserEvents([...newUserEvents])
 
     }, [userID])
@@ -157,28 +158,28 @@ export default function Dashboard({ user }) {
     return (
         <div>
             <div>
-                <div>
-                    <div className="flex w-1/3">
+                <div className='flex flex-row items-center justify-between flex-shrink-0 h-full px-8 py-4'>
+
+                    <div className="flex w-1/2 px-10 h-1/3">
                         <DailyView userEvents={userEvents} customButtons={customButtons} dateClickHandler={dateClickHandler} eventClickHandler={eventClickHandler} />
                     </div>
-                    <div className="flex w-1/3">
+                    <div className="flex w-1/2 px-10 h-1/3">
                         <MonthlyView userEvents={userEvents} customButtons={customButtons} dateClickHandler={dateClickHandler} eventClickHandler={eventClickHandler} />
                     </div>
                 </div>
                 <div>
-                    <div>
+                    <div className="flex w-full px-20 h-1/3">
                         <WeeklyView userEvents={userEvents} customButtons={customButtons} dateClickHandler={dateClickHandler} eventClickHandler={eventClickHandler} />
                     </div>
-                    <div>
-                        <TasksView />
-                    </div>
+
                 </div>
+
             </div >
             <div>
                 <AddTaskModal taskModal={taskModal} addTaskHandler={addTaskHandler} closeTaskModal={closeTaskModal} activeDate={activeDate} />
             </div>
             <div>
-                <ModifyTaskModal modifyModal={modifyModal} updateTaskHandler = {updateTaskHandler} removeTaskHandler={removeTaskHandler} closeModifyModal={closeModifyModal} activeTask = {activeTask}/>
+                <ModifyTaskModal modifyModal={modifyModal} updateTaskHandler={updateTaskHandler} removeTaskHandler={removeTaskHandler} closeModifyModal={closeModifyModal} activeTask={activeTask} />
             </div>
 
         </div>
