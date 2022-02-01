@@ -34,18 +34,18 @@ export default function AddTaskModal({ taskModal, closeTaskModal, addTaskHandler
 
                     <div className='py-2'>
                         <label htmlFor='title' className='block font-normal text-gray-700 text-md'>Task Title</label>
-                        <input name='title' id='title' placeholder='Task Title' required className='w-full px-3 py-2 leading-tight text-gray-700 border rounded appearance-none focus:outline-none ' />
+                        <input name='title' id='title' placeholder='Task Title' required className='w-full px-3 py-2 leading-tight text-gray-700 border rounded appearance-none focus:outline-none' />
                     </div>
 
                     <div className='py-2'>
                         <label htmlFor='details' className='block font-normal text-gray-700 text-md'>Task Description</label>
-                        <textarea name='details' id='details' placeholder='details' required className='w-full px-3 py-2 leading-tight text-gray-700 border rounded appearance-none focus:outline-none ' />
+                        <textarea name='details' id='details' placeholder='details' required className='w-full px-3 py-2 leading-tight text-gray-700 border rounded appearance-none focus:outline-none' />
 
                     </div>
 
                     <div className='py-2'>
                         <label htmlFor='date' className='block font-normal text-gray-700 text-md'>Task Date and Time</label>
-                        <input name='date' id='date' type='datetime-local' defaultValue={activeDate} required className='w-full px-3 py-2 leading-tight text-gray-700 border rounded appearance-none focus:outline-none ' />
+                        <input name='date' id='date' type='datetime-local' defaultValue={activeDate} required className='w-full px-3 py-2 leading-tight text-gray-700 border rounded appearance-none focus:outline-none' />
                     </div>
 
                     <div className='py-4'>
