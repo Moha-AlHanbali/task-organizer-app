@@ -17,7 +17,7 @@ export default function Login({ login }) {
                                 </label>
                             </div>
                             <div className='w-3/4'>
-                                <input name='userName' id='userName' placeholder='username' type='text' required className='w-full px-3 py-2 leading-tight text-gray-700 border rounded appearance-none focus:outline-none ' />
+                                <input name='userName' id='userName' placeholder='username' type='text' required className='w-full px-3 py-2 leading-tight text-gray-700 border rounded appearance-none focus:outline-none' />
                             </div>
                         </div>
 
@@ -33,13 +33,13 @@ export default function Login({ login }) {
                         </div>
 
                         <div className='flex items-center justify-between mt-10'>
-                            <button type='submit' className='w-2/6 px-4 py-2 font-bold text-white bg-blue-500 rounded shadow hover:bg-blue-400 focus:shadow-outline focus:outline-none active:bg-blue-700 type="submit'>
+                            <button type='submit' className='w-2/6 px-4 py-2 font-bold text-white bg-blue-500 rounded shadow hover:bg-blue-400 focus:shadow-outline focus:outline-none active:bg-blue-700'>
                                 Login
                             </button>
 
                             <div className='w-2/6'>
                             </div>
-                            <button onClick={() => { router.push('/register') }} type='submit' className='w-2/6 px-4 py-2 font-bold text-white bg-orange-500 rounded shadow hover:bg-orange-400 focus:shadow-outline active:bg-orange-700 focus:outline-none type="button'> Sign Up </button>
+                            <button onClick={() => { router.push('/register') }} type='button' className='w-2/6 px-4 py-2 font-bold text-white bg-orange-500 rounded shadow hover:bg-orange-400 focus:shadow-outline active:bg-orange-700 focus:outline-none'> Sign Up </button>
                         </div>
                     </form>
                 </div>
