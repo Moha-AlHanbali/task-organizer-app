@@ -23,24 +23,29 @@ export function AuthProvider(props) {
     });
 
     async function login(username, password) {
-
-        const response = await axios.post(tokenUrl, { username, password });
-
-        const decodedAccess = jwt.decode(response.data.access);
-
-        const newState = {
-            tokens: response.data,
-            user: {
-                username: decodedAccess.username,
-                email: decodedAccess.email,
-                id: decodedAccess.user_id,
-                firstName: decodedAccess.first_name,
-                lastName: decodedAccess.last_name,
-                age: decodedAccess.age
-            },
+        try{
+            const response = await axios.post(tokenUrl, { username, password });
+    
+            const decodedAccess = jwt.decode(response.data.access);
+    
+            const newState = {
+                tokens: response.data,
+                user: {
+                    username: decodedAccess.username,
+                    email: decodedAccess.email,
+                    id: decodedAccess.user_id,
+                    firstName: decodedAccess.first_name,
+                    lastName: decodedAccess.last_name,
+                    age: decodedAccess.age
+                },
+            }
+    
+            setState(prevState => ({ ...prevState, ...newState }));
         }
-
-        setState(prevState => ({ ...prevState, ...newState }));
+        catch(error){
+            console.error(error);
+            return true
+        }
     }
 
     function logout() {
