@@ -2,7 +2,7 @@
 import Head from 'next/head'
 import Signup from '../components/Signup';
 
-export default function register() {
+export default function Register() {
     return (
         <div>
             <Head>
